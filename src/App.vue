@@ -31,24 +31,26 @@ export default {
 <style>
   body {
     background: linear-gradient(to bottom, #555, #999) fixed;
+    margin: 2rem;
   }
+</style>
+
+<style scoped>
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
   }
   main {
     margin: 0 auto;
-    padding: 30px;
     background: white;
-    width: 1024px;
+    width: 100%;
     min-height: 300px;
   }
   header {
     background-color: #999;
-    width: 1084px;
     margin: 0 auto;
   }
   ul {
-    padding: 3px;
+    padding: 0;
     display: flex;
   }
   .nav-item {
