@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// import HomePage from './home/HomePage.vue';
 import RobotBuilder from './build/RobotBuilder.vue';
 
 export default {
@@ -31,23 +30,23 @@ export default {
 <style>
   body {
     background: linear-gradient(to bottom, #555, #999) fixed;
-    margin: 2rem;
   }
 </style>
 
 <style scoped>
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 1200px;
   }
   main {
-    margin: 0 auto;
     background: white;
     width: 100%;
     min-height: 300px;
   }
   header {
-    background-color: #999;
-    margin: 0 auto;
+    background-color: white;
   }
   ul {
     padding: 0;
@@ -64,3 +63,7 @@ export default {
     height: 30px;
   }
 </style>
+
+<link
+  rel="stylesheet"
+  href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
