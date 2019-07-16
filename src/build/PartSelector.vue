@@ -1,14 +1,16 @@
 <template>
   <div class="part" :class="position">
-    <img alt="robot" :src="selectedPart.src" title="robot"/>
-    <md-button
-      class="md-raised prev-selector"
-      @click="selectPreviousPart()"
-    ></md-button>
-    <md-button
-      @click="selectNextPart()"
-      class="next-selector md-raised"
-    ></md-button>
+    <router-link
+      :to="{
+        name: 'Parts',
+        params: {
+          id: this.selectedPart.id,
+          partType: this.selectedPart.type,
+      }}">
+      <img alt="robot" :src="selectedPart.src" title="robot"/>
+    </router-link>
+    <md-button class="md-raised prev-selector" @click="selectPreviousPart()"></md-button>
+    <md-button class="md-raised next-selector" @click="selectNextPart()"></md-button>
     <span class="sale" v-show="selectedPart.onSale">Sale!</span>
   </div>
 </template>
@@ -75,11 +77,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .part {
     position: relative;
     width:165px;
     height:165px;
+
+    &:hover {
+      .prev-selector,
+      .next-selector {
+        opacity: 1;
+      }
+    }
   }
   .sale {
     position: absolute;
@@ -100,6 +109,7 @@ export default {
   }
   .part img {
     width:165px;
+    cursor: pointer;
   }
   .top {
     border-bottom: none;
@@ -127,6 +137,7 @@ export default {
     height: 160px;
     min-width: 0;
     margin: 0;
+    opacity: 0;
   }
   .next-selector {
     position: absolute;
@@ -136,6 +147,7 @@ export default {
     height: 160px;
     margin: 0;
     min-width: 0;
+    opacity: 0;
   }
   .left .prev-selector:after,  .right .prev-selector:after{
     content: '\25B2';
@@ -156,9 +168,6 @@ export default {
     content: '\25BA';
     position: relative;
     bottom: 85px;
-  }
-  .center .prev-selector, .center .next-selector {
-    opacity:0.8;
   }
   .left .prev-selector {
     top: -30px;

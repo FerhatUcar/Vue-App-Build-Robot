@@ -2,28 +2,43 @@
   <div id="app">
     <header>
       <nav>
-        <ul>
-          <li class="nav-item">
-            <img src="./assets/build-a-bot-logo.png" alt="" class="logo">
-            Build-a-Bot
-          </li>
-        </ul>
+        <router-link
+          tag="md-button"
+          active-class="active-link"
+          :to="{name: 'Home'}"
+          exact>
+          Home
+        </router-link>
+        <router-link
+          tag="md-button"
+          active-class="active-link"
+          :to="{name: 'Build'}"
+          exact>
+          Build
+        </router-link>
       </nav>
     </header>
-    <main>
-      <RobotBuilder/>
-    </main>
+    <div class="container">
+      <aside>
+        <router-view name="sidebar"/>
+      </aside>
+      <main>
+        <router-view/>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import RobotBuilder from './build/RobotBuilder.vue';
+import Vue from 'vue';
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
+
+Vue.use(VueMaterial);
 
 export default {
   name: 'app',
-  components: {
-    RobotBuilder,
-  },
 };
 </script>
 
@@ -33,12 +48,30 @@ export default {
   }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     padding: 1rem;
     margin: 0 auto;
     max-width: 1200px;
+  }
+  .md-button {
+    margin: 0;
+    border-right: solid 1px #c7c7c7;
+    border-radius: 0;
+  }
+  .container {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19),
+                0 6px 6px rgba(0,0,0,0.23);
+  }
+  aside {
+    padding: 1rem;
+    background-color: #686868;
+    width: 100px;
+    min-height: 300px;
   }
   main {
     background: white;
@@ -48,19 +81,16 @@ export default {
   header {
     background-color: white;
   }
-  ul {
-    padding: 0;
-    display: flex;
-  }
-  .nav-item {
-    display: inline-block;
-    padding: 5px 10px;
-    font-size: 22px;
-    border-right: 1px solid #bbb;
+  nav {
+    margin-bottom: 1rem;
   }
   .logo {
     vertical-align: middle;
     height: 30px;
+  }
+  .active-link {
+    color: white !important;
+    background-color: #448aff;
   }
 </style>
 

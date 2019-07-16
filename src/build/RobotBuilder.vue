@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="robot-box">
     <div class="content">
       <div class="robot">
         <div class="robot-name">
@@ -40,7 +40,8 @@
       </div>
     </div>
     <div class="preview">
-      <CollapsibleSection>
+      <transition name="slide">
+        <CollapsibleSection>
         <div class="preview-content">
           <div class="top-row">
             <img :src="selectedRobot.head.src" alt=""/>
@@ -51,34 +52,28 @@
             <img :src="selectedRobot.rightArm.src" alt="" class="rotate-right"/>
           </div>
           <div class="bottom-row">
-            <img :src="selectedRobot.base.src"/>
+            <img :src="selectedRobot.base.src" alt=""/>
           </div>
         </div>
       </CollapsibleSection>
-      <md-button
-        class="md-raised md-primary add-to-cart"
-        @click="addToCart()">
+      </transition>
+      <md-button class="md-raised md-primary add-to-cart" @click="addToCart()">
         Add to cart
       </md-button>
     </div>
     <div class="cart">
       <h2>Cart</h2>
       <md-divider></md-divider>
-
-      <md-table class="cart-content">
-
-        <md-table-row>
+      <transition-group tag="md-table" name="fade" class="cart-content">
+        <md-table-row key="headerTable">
           <md-table-head>Robot</md-table-head>
           <md-table-head class="cost">Cost</md-table-head>
         </md-table-row>
-
-        <md-table-row v-for="(robot, index) in cart" :key="index">
-          <md-table-cell>{{robot.head.title}}</md-table-cell>
-          <md-table-cell class="cost">{{robot.cost}}</md-table-cell>
+        <md-table-row v-for="(robot, index) in cart" :key="`${index}-${robot.id}`">
+            <md-table-cell key="head">{{robot.head.title}}</md-table-cell>
+            <md-table-cell key="cost" class="right">{{robot.cost | toCurrency}}</md-table-cell>
         </md-table-row>
-
-      </md-table>
-
+      </transition-group>
     </div>
   </div>
 </template>
@@ -89,16 +84,17 @@ import availableParts from '../data/parts';
 import PartSelector from './PartSelector.vue';
 import CollapsibleSection from '../shared/CollapsibleSection.vue';
 
-import Vue from 'vue'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-
-Vue.use(VueMaterial);
+import toCurrency from '../filter/currency.js';
 
 export default {
   name: "RobotBuilder",
-  components: { PartSelector, CollapsibleSection },
+  components: {
+    PartSelector,
+    CollapsibleSection
+  },
+  filters: {
+    toCurrency,
+  },
   data() {
     return {
       availableParts,
@@ -111,11 +107,6 @@ export default {
         base: {},
       }
     };
-  },
-  computed: {
-    // saleBorderClass(){
-    //   return this.selectedRobot.head.onSale ? 'sale-border' : '';
-    // },
   },
   methods: {
     addToCart(){
@@ -133,12 +124,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .container {
+  .fade-enter{
+    opacity: 0;
+  }
+  .fade-enter-active{
+    transition: opacity 1s;
+  }
+  .fade-leave{
+     opacity: 1;
+  }
+  .fade-leave-active{
+    transition: opacity 1s;
+    opacity: 0;
+  }
+  .robot-box {
     display: flex;
     justify-content: space-between;
-    background: linear-gradient(to top, #e2e2e2, #c2c2c2) fixed;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19),
-                0 6px 6px rgba(0,0,0,0.23);
+    background: linear-gradient(to top, #ffffff, #cccccc) fixed;
   }
   .content {
     padding: 1rem;
@@ -171,6 +173,9 @@ export default {
     img {
       width:165px;
     }
+  }
+  .right {
+    text-align: right;
   }
   .top-row {
     display:flex;
@@ -256,10 +261,6 @@ export default {
   .right .next-selector {
     right: -3px;
   }
-  td, th {
-    text-align: left;
-    padding: 5px 20px 5px 0;
-  }
   .cost {
     text-align: right;
   }
@@ -285,15 +286,15 @@ export default {
   }
   .preview {
     padding: 1rem;
-    min-width: 230px;
+    min-width: 250px;
     background-color: #686868;
   }
   .preview-content {
     padding: 1rem;
   }
   .preview img {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
   }
   .rotate-right {
     transform: rotate(90deg);
