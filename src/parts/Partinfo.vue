@@ -1,9 +1,7 @@
 <template>
-  <div>
+  <div class="part-info">
     <h1>{{part.title}}</h1>
-    <div>
-      {{part.description}}
-    </div>
+    <div>{{part.description}}</div>
   </div>
 </template>
 
@@ -32,5 +30,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .part-info {
+    padding: 1rem;
+  }
 </style>
